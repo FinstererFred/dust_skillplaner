@@ -1,9 +1,9 @@
 <?
 define('kk', '6.7868303620e-1');
 
-include_once('db.php');
+include_once('db.class.php');
 
-include_once('bcrypt.php');
+include_once('bcrypt.class.php');
 
 error_reporting(0);
 

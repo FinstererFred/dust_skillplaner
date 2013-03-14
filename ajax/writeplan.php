@@ -1,5 +1,5 @@
 <?php
-include_once('plan.php');
+include_once('plan.class.php');
 
 $post = $_POST;
 
