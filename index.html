@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>DUST514 Stundenplan</title>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/data.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+
+<div id="container">
+	<div class="mode">Dust Stundenplaner <div>Modus: <span id="mode"></span></div></div>
+
+	<div id="dragContainer">
+		<div class="filter">
+			<input type="text" id="filter" value="Filter" onclick="this.value = '';"/><span class="filterx">x</span>
+		</div>
+		<div id="dragSource" ></div>
+	</div>
+
+	<div id="dragTarget" >
+		<div style="border-bottom:1px solid black;padding:9px" class="headline">
+		<span style="margin-right:15px;">StarLvl</span><span style="margin-right:15px;">EndLvl</span>Name<span style="float:right; margin-right:20px">nötige SP</span>
+		</div>
+	</div>
+
+	<div id="totalSP">
+		<div>
+			Total SP
+			<div id="skillout">0</div>
+		</div>
+		<div>
+			Zeit in Wochen 
+			<div id="skilltime"></div>
+		</div>
+	</div>
+	
+	<div style="clear:both"><br/></div>
+
+	<div class="login">
+		Bezeichnung:<br/>
+		<input style="width:300px;"type="text" value="Name" name="name" id="name"><br/><br/>
+		Passwort:<br/>
+		<input type="text" value="Passwort" name="password" id="password" onclick="this.value = '';"/><br/>
+		<button id="action">Speichern</button>	
+		<div id="output"></div>
+	</div>
+
+</div>
+
+</body>
+</html>

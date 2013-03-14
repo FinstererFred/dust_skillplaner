@@ -1,0 +1,41 @@
+body			{ font-family: Arial; font-size: 12px; background:url(../gfx/bg.jpg) no-repeat #000; color:#e5eaee;margin-top:0px; padding-top: 0px }
+
+#container 		{ width:1036px;overflow:hidden; margin:0px auto;}
+#dragContainer 	{ width:340px; border:2px solid #555; float:left; background:#333; border-radius:5px;  }
+#dragSource		{ overflow-y: scroll; height:464px;}
+#dragTarget 	{ width:480px; min-height: 499px; border:2px solid #555; float:left;margin-left: 20px; background:#333; border-radius:5px; }
+#totalSP 		{ width:150px; height:180px; border:2px solid #555; float:right;padding:10px; background:#333; border-radius:5px; }
+#totalSP > div 	{ margin-bottom:10px;}
+#skillout		{ font-weight: bold; padding-left: 5px; padding-top:5px;}
+#skilltime		{ font-weight: bold; padding-left: 5px; padding-top:5px;}
+
+.anchor 		{ padding-left: 5px; height:30px; line-height:30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer; background:url(../gfx/anchor.png) right 4px  no-repeat;}
+.btor 			{ padding:0px 5px; height: 30px; line-height: 30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer;}
+.helpor 		{ padding: 5px; width: 200px; height:20px; background: #000; color:white;text-align: center}
+.group			{ display:none;}
+.folder			{ background:url(../gfx/plus.png) 5px 8px no-repeat grey;padding:5px; cursor: pointer; border-bottom: 1px solid #626262; padding-left: 18px}
+.folder.minus	{ background:url(../gfx/minus.png) 5px 8px no-repeat grey;}
+
+.start 			{ margin-left:10px;}
+.name 			{ margin-left: 20px;}
+.start 			{ margin-right: 5px;}
+.end 			{ margin-right: 5px;margin-left:10px;}
+.pfeile img 	{ margin-bottom: 1px; cursor: pointer;}
+.pfeile.hide img{ display: none;}
+.pfeile.hide 	{ width: 20px;display: inline-block;}
+.currsp 		{ float:right;padding:0px 3px;margin-right: 10px}
+.x 				{ float:right;padding:0px 3px;cursor: pointer; }
+.x.hide 		{ color:#333333;}
+
+.mode			{ line-height: 30px; font-weight: bold; font-size: 13px; border:2px solid #555; border-top:0px; background:#333; border-radius:0px 0px 5px 5px; margin-bottom: 10px;padding:0px 10px;}
+.mode > div		{ float:right; width:120px;}
+.filter 		{ padding-left:5px;height: 34px; line-height: 34px; border-bottom: 1px solid black}
+.filter input 	{ border:1px solid black; width:295px;}
+.filterx 		{ float:right;padding:0px 3px;cursor: pointer; font-weight: bold; margin-right: 5px}
+.ansicht		{ background:#606263; cursor: not-allowed;}
+
+input[type=text], input[type=email], input[type=password] 
+				{ padding:3px 5px; border:none; background:#aaa; border-radius:2px;}
+h1				{ font-size:20px; text-align:left;}
+button 			{ background:#06C; color:#fff; border:1px solid #06F; border-radius:2px; padding:6px 10px; font-size:16px; margin-top:10px;}
+
