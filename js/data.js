@@ -349,8 +349,8 @@
 	desc['d102'] = {'en':'basic understanding of vehicle maneuvering. Unlocks ability to use afterburner modules.','de':'Grundlegende Kenntnisse über Fahrzeugmanöverierung. Schaltet die Fähigkeit zur Bedienung von Nachbrennermodulen frei.'};
 
 	groups['g1'] = {'en':'Core Electronics', 'de': 'Elektronik'};
-	groups['g2'] = {'en':'Core Engineering', 'de': 'Mechanik'};
-	groups['g3'] = {'en':'Core Mechanics', 'de': 'Konstruktion'};
+	groups['g2'] = {'en':'Core Engineering', 'de': 'Konstruktion'};
+	groups['g3'] = {'en':'Core Mechanics', 'de': 'Mechanik'};
 	groups['g4'] = {'en':'Corporation Management', 'de': 'Corporation Management'};
 	groups['g5'] = {'en':'Dropsuit Command', 'de': 'Beherrschung: Dropsuit'};
 	groups['g6'] = {'en':'Dropsuit Upgrades', 'de': 'Dropsuitupgrades'};
