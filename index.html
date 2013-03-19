@@ -17,7 +17,7 @@
 <body>
 
 <div id="container">
-	<div class="mode">Dust Stundenplaner <div>Modus: <span id="mode"></span></div></div>
+	<div class="mode"><div class="name"><span class="is_ml" id="ml_name">Dust Stundenplaner</span> <span class="language"><a href="#" class="de">de</a> | <a href="#" class="en">en</a></span></div> <div class="modestatus"><span class="is_ml" id="ml_mode">Modus:</span> <span id="mode"></span></div></div>
 
 	<div id="dragContainer">
 		<div class="filter">
@@ -28,29 +28,33 @@
 
 	<div id="dragTarget" >
 		<div style="border-bottom:1px solid black;padding:9px" class="headline">
-		<span style="margin-right:15px;">StarLvl</span><span style="margin-right:15px;">EndLvl</span>Name<span style="float:right; margin-right:20px">nötige SP</span>
+		<span style="margin-right:15px;">StartLvl</span><span style="margin-right:15px;">EndLvl</span>Name<span style="float:right; margin-right:20px" class="is_ml" id="ml_needed">nötige SP</span>
 		</div>
 	</div>
 
 	<div id="totalSP">
 		<div>
-			Total SP
+			<span class="is_ml" id="ml_totalsp">Total SP</span>
 			<div id="skillout">0</div>
 		</div>
 		<div>
-			Zeit in Wochen 
+			<span class="is_ml" id="ml_totaltime">Zeit in Wochen</span>
 			<div id="skilltime"></div>
+		</div>
+		<div>
+			<span class="is_ml" id="ml_overcap">Über CAP</span>
+			<div id="overc"><input type="text" value="0" id="overcap"/></div>
 		</div>
 	</div>
 	
 	<div style="clear:both"><br/></div>
 
 	<div class="login">
-		Bezeichnung:<br/>
+		<span class="is_ml" id="ml_description">Bezeichnung:</span><br/>
 		<input style="width:300px;"type="text" value="Name" name="name" id="name"><br/><br/>
-		Passwort:<br/>
+		<span class="is_ml" id="ml_password">Passwort:</span><br/>
 		<input type="text" value="Passwort" name="password" id="password" onclick="this.value = '';"/><br/>
-		<button id="action">Speichern</button>	
+		<button id="action"><span class="is_ml" id="ml_save">Speichern</span></button>	
 		<div id="output"></div>
 	</div>
 

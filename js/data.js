@@ -6,7 +6,9 @@
 	var desc = {};
 	var groups = {};
 	var lang = 'de';
+	var ui = {};
 
+	skills['0'] =  { '0':0,'1':0, '2':0, '3':0, '4':0, '5':0};
 	skills['1'] =  { '0':0,'1':6220, '2':24870, '3':68400, '4':155460, '5':310920};
 	skills['2'] =  { '0':0,'1':12440,'2':49740, '3':136800,'4':310920, '5':621840};
 	skills['3'] =  { '0':0,'1':18660,'2':74610, '3':205200,'4':466380, '5':932760};
@@ -141,6 +143,8 @@
 	data['d101'] = {'start_level':0, 'end_level':0, 'multiplier':1, 'skill_id' : 101, 'group': 11};
 	data['d102'] = {'start_level':0, 'end_level':0, 'multiplier':5, 'skill_id' : 102, 'group': 11};
 
+	data['d1000'] = {'start_level':0, 'end_level':0, 'multiplier':0, 'skill_id': 1000, 'group': 1000};
+
 	trans['d1'] = {'en':'Corporation Control','de':'Corporation-Führung'};
 	trans['d2'] = {'en':'Megacorp Control','de':'Magacorp-Führung'};
 	trans['d3'] = {'en':'Transstellar Empire Control','de':'Interstellare Imperiumskontrolle'};
@@ -243,6 +247,8 @@
 	trans['d100'] = {'en':'Piloting','de':'Schiffsteuerung'};
 	trans['d101'] = {'en':'Vehicle Command','de':'Beherrschung: Fahrzeug'};
 	trans['d102'] = {'en':'Vehicle Maneuvering','de':'Beschleunigungsregelung'};
+	
+	trans['d1000'] = {'en':'Seperator','de':'Trenner'};
 
 
 	desc['d1'] = {'en':'Basic corporation operation. +10 Corporation members allowed per level.','de':'Einfacher Skill zur Führung einer Corporation. +10 Corporation-Mitglieder pro Skillstufe erlaubt.'};
@@ -348,6 +354,8 @@
 	desc['d101'] = {'en':'skill at operating ground vehicle systems. Unlocks skills that can be trained to operate ground vehicles','de':'Ein Skill, um Bodenfahrzeugsysteme bedienen zu können. Schaltet trainierbare Skills zut Bedienung von Bodenfahrzeugen frei.'};
 	desc['d102'] = {'en':'basic understanding of vehicle maneuvering. Unlocks ability to use afterburner modules.','de':'Grundlegende Kenntnisse über Fahrzeugmanöverierung. Schaltet die Fähigkeit zur Bedienung von Nachbrennermodulen frei.'};
 
+	desc['d1000'] = {'en':'Skillplan Seperator', 'de': 'Stundenplan Trenner'}
+
 	groups['g1'] = {'en':'Core Electronics', 'de': 'Elektronik'};
 	groups['g2'] = {'en':'Core Engineering', 'de': 'Konstruktion'};
 	groups['g3'] = {'en':'Core Mechanics', 'de': 'Mechanik'};
@@ -360,3 +368,14 @@
 	groups['g10'] = {'en':'Weapons', 'de': 'Handfeuerwaffen'};
 	groups['g11'] = {'en':'Vehicle Command', 'de': 'Beherrschung: Fahrzeug'};
 	groups['g12'] = {'en':'Destruction', 'de': 'Destruktion'};
+
+
+	ui['ml_name'] = 		{'en' : 'Dust Skill Planer', 'de': 'Dust Stundenplaner'};
+	ui['ml_mode'] = 		{'en' : 'Mode', 'de': 'Modus'};
+	ui['ml_needed'] = 		{'en' : 'needed SP', 'de': 'nötige SP'};
+	ui['ml_totalsp'] = 		{'en' : 'Total SP', 'de': 'Totale SP'};
+	ui['ml_totaltime'] = 	{'en' : 'Time in Weeks', 'de': 'Zeit in Wochen'};
+	ui['ml_overcap'] = 		{'en' : 'Over Cap', 'de': 'Über Cap'};
+	ui['ml_description'] = 	{'en' : 'Description', 'de': 'Beschreibung'};
+	ui['ml_password'] =		{'en' : 'Password', 'de': 'Passwort'};
+	ui['ml_save'] =			{'en' : 'Save', 'de': 'Speichern'};

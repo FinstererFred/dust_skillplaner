@@ -2,6 +2,10 @@ var locked = true;
 
 $(function() 
 {
+	lang = ( typeof(getCookie('lang')) == 'undefined') ? lang : getCookie('lang');
+
+	setLanguage(lang);
+
 	data =  init.sortGroups();
 
 	urlvars = init.parseUrlVars();
@@ -49,7 +53,29 @@ $(function()
 		doUnlock();
 	}
 
+	$('.en').on('click', function(event) { event.preventDefault();	setLanguage('en'); });
+	
+	$('.de').on('click', function(event) { event.preventDefault();	setLanguage('de'); });
+
 });
+
+function setLanguage(_lang)
+{
+	setCookie('lang', _lang, 180);
+
+	lang = _lang;
+
+	init.loadList();
+
+	init.rewritePlan();
+
+	$(".is_ml").each(function() 
+	{
+    	try { $(this).html( ui[ $(this).attr('id') ][lang] ); }
+    	catch(e) { ; }
+  	});
+}
+
 
 function unlock(planid, pw) 
 {
@@ -191,15 +217,45 @@ function handleDropEvent( event, ui )
 	{
 		var _ob = $.extend({'sort':(used.length+1)}, data[$(draggable).attr('id')]);
 
+				
+		var _isTrenner = ( data[$(draggable).attr('id')]['skill_id']  == 1000) ? true : false;	
+
 		used.push( _ob );
 
-		init.writeEntry(_id);
+		init.writeEntry(_id, 0, 0, _isTrenner);
 
 		$( "#dragTarget" ).sortable({ items: "div:not(.headline)" });
 	}
-	else
+}
+
+function setCookie(c_name,value,exdays)
+{
+	var exdate = new Date();
+	
+	exdate.setDate(exdate.getDate() + exdays);
+	
+	var c_value = escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	
+	document.cookie = c_name + "=" + c_value;
+}
+
+
+function getCookie(c_name)
+{
+	var i,x,y,ARRcookies=document.cookie.split(";");
+	
+	for (i=0;i<ARRcookies.length;i++)
 	{
-		console.log('resort');
+	  x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+
+	  y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+
+	  x=x.replace(/^\s+|\s+$/g,"");
+
+	  if (x==c_name)
+	  {
+	    return unescape(y);
+	  }
 	}
 }
 
@@ -219,11 +275,15 @@ window['init'] =
 
 		var _first = true;
 
+		var _multi = '';
+
 		for(_index in data)
 		{
 			_outStr = '';
 
-			if(_group != data[_index].group && !filtertext )
+			 _multi = ' ('+data[_index].multiplier+'x)';
+
+			if(_group != data[_index].group && !filtertext && data[_index].group != 1000 && _group != 1000)
 			{
 				_group = data[_index].group;
 
@@ -235,7 +295,15 @@ window['init'] =
 
 			}
 
-			_outStr += '<div class="anchor" id="d'+data[_index].skill_id+'" title="'+desc[_index][lang]+'">'+trans[_index][lang]+' ('+data[_index].multiplier+'x)</div>';	
+			else if(data[_index].group == 1000 )  
+			{
+				_outStr += '</div>';
+
+				_multi = '';
+			}
+
+
+			_outStr += '<div class="anchor" id="d'+data[_index].skill_id+'" title="'+desc[_index][lang]+'">'+trans[_index][lang]+_multi+'</div>';	
 
 			if( filtertext )
 			{
@@ -285,15 +353,20 @@ window['init'] =
 	    return vars;
 	}, 
 
-	'writeEntry' : function(id, start_level, end_level)
+	'writeEntry' : function(id, start_level, end_level, is_trenner)
 	{
 		start_level = typeof start_level !== 'undefined' ? start_level : 0;
 			
-			end_level = typeof end_level !== 'undefined' ? end_level : 0;
+		end_level = typeof end_level !== 'undefined' ? end_level : 0;
 
-		$('#dragTarget').append('<div id="u_'+used.length+'" class="btor" title="'+desc[ id ][lang]+'"> <span class="start">'+start_level+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="end">'+end_level+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="name">'+trans[ id ][lang]+' ('+data[ id ].multiplier+'x)</span> <span class="x">x</span><span class="currsp">0</span></div>');
-
-		//$( "#dragTarget" ).sortable({ items: "div:not(.headline)" });
+		if(is_trenner == false)
+		{
+			$('#dragTarget').append('<div id="u_'+used.length+'" class="btor" title="'+desc[ id ][lang]+'"> <span class="start">'+start_level+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="end">'+end_level+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="name">'+trans[ id ][lang]+' ('+data[ id ].multiplier+'x)</span> <span class="x">x</span><span class="currsp">0</span></div>');
+		}
+		else
+		{
+			$('#dragTarget').append('<div id="u_'+used.length+'" class="btor trenner" title="'+desc[ id ][lang]+'">  <span class="name"> </span> <span class="x">x</span></div>');
+		}
 	}, 
 
 	sortGroups : function ()
@@ -310,6 +383,17 @@ window['init'] =
 		}
 		
 		return _outObj;
+	}, 
+
+	rewritePlan : function ()
+	{
+		$('#dragTarget .btor').each(function () 
+		{
+			var _index = Number( $(this).attr('id').split('u_')[1] ) - 1;
+			
+			$(this).find('.name').text( trans['d'+used[_index]['skill_id']][lang] + ' ('+used[_index]['multiplier']+'x)' );
+			
+		});
 	}
 }
 
@@ -321,16 +405,24 @@ window['ajax'] =
 		{
 			for (_index in retval)
 			{
+				 
 				var _id = 'd'+retval[_index]['skillID'];
 
 				var _multi = data[ _id ]['multiplier'];
 				
 				used.push( {'start_level' : retval[_index]['startLvl'] , 'end_level' : retval[_index]['endLvl'], 'multiplier' : _multi, 'skill_id': retval[_index]['skillID']} );
+			
+				if( retval[_index]['skillID'] != 1000)
+				{	
+					init.writeEntry( _id, retval[_index]['startLvl'], retval[_index]['endLvl'], false);
+				}
+				else 
+				{
+					init.writeEntry( _id, 0, 0, true);
+				}
 				
-				init.writeEntry( _id, retval[_index]['startLvl'], retval[_index]['endLvl']);
-
 				$('.pfeile').addClass('hide');
-
+				
 				$('.x').addClass('hide');
 			}
 

@@ -1,16 +1,21 @@
 body			{ font-family: Arial; font-size: 12px; background:url(../gfx/bg.jpg) no-repeat #000; color:#e5eaee;margin-top:0px; padding-top: 0px }
-
+body a 			{ text-decoration: none}
 #container 		{ width:1036px;overflow:hidden; margin:0px auto;}
 #dragContainer 	{ width:340px; border:2px solid #555; float:left; background:#333; border-radius:5px;  }
 #dragSource		{ overflow-y: scroll; height:464px;}
 #dragTarget 	{ width:480px; min-height: 499px; border:2px solid #555; float:left;margin-left: 20px; background:#333; border-radius:5px; }
+
 #totalSP 		{ width:150px; height:180px; border:2px solid #555; float:right;padding:10px; background:#333; border-radius:5px; }
 #totalSP > div 	{ margin-bottom:10px;}
+
 #skillout		{ font-weight: bold; padding-left: 5px; padding-top:5px;}
 #skilltime		{ font-weight: bold; padding-left: 5px; padding-top:5px;}
+#overc			{ padding-left: 5px; padding-top:5px; }
+#overc input 	{ width:50px;}
 
 .anchor 		{ padding-left: 5px; height:30px; line-height:30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer; background:url(../gfx/anchor.png) right 4px  no-repeat;}
 .btor 			{ padding:0px 5px; height: 30px; line-height: 30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer;}
+.btor.trenner	{ height: 20px; line-height: 20px; background:#bababa; color:white;}
 .helpor 		{ padding: 5px; width: 200px; height:20px; background: #000; color:white;text-align: center}
 .group			{ display:none;}
 .folder			{ background:url(../gfx/plus.png) 5px 8px no-repeat grey;padding:5px; cursor: pointer; border-bottom: 1px solid #626262; padding-left: 18px}
@@ -26,9 +31,14 @@ body			{ font-family: Arial; font-size: 12px; background:url(../gfx/bg.jpg) no-r
 .currsp 		{ float:right;padding:0px 3px;margin-right: 10px}
 .x 				{ float:right;padding:0px 3px;cursor: pointer; }
 .x.hide 		{ color:#333333;}
+.trenner .x.hide { color:#bababa;}
 
-.mode			{ line-height: 30px; font-weight: bold; font-size: 13px; border:2px solid #555; border-top:0px; background:#333; border-radius:0px 0px 5px 5px; margin-bottom: 10px;padding:0px 10px;}
-.mode > div		{ float:right; width:120px;}
+.mode			{ line-height: 30px; font-weight: bold; font-size: 13px; border:2px solid #555; border-top:0px; background:#333; border-radius:0px 0px 5px 5px; margin-bottom: 10px;padding:0px 10px; overflow: hidden}
+.mode a 		{ color:white;}
+.mode .modestatus
+				{ float:right; width:120px;}
+.mode .name		{ float:left;}
+.mode .language { font-size: 10px; padding-left: 10px}
 .filter 		{ padding-left:5px;height: 34px; line-height: 34px; border-bottom: 1px solid black}
 .filter input 	{ border:1px solid black; width:295px;}
 .filterx 		{ float:right;padding:0px 3px;cursor: pointer; font-weight: bold; margin-right: 5px}
