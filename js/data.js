@@ -1,6 +1,5 @@
 	var urlvars;
 	var data = {};
-	var used = [];
 	var skills = {};
 	var trans = {};
 	var desc = {};
