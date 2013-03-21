@@ -6,7 +6,7 @@ $(function()
 {
 	lang = ( typeof(util.getCookie('lang')) == 'undefined') ? lang : util.getCookie('lang');
 
-	setLanguage(lang);
+	util.setLanguage(lang);
 
 	data =  init.sortGroups();
 
@@ -16,13 +16,13 @@ $(function()
 
 	$('#filter').on('keyup', function() 
 	{
-		var _val = $(this).val().toLowerCase();
+		var _searchstring = $(this).val().toLowerCase();
 
-		if( _val.length > 0 ) 
+		if( _searchstring.length > 0 ) 
 		{
-			init.loadSkillList( _val );				
+			init.loadSkillList( _searchstring );				
 		}
-		else if(_val.length == 0)
+		else if( _searchstring.length == 0)
 		{
 			init.loadSkillList();				
 		}
@@ -37,7 +37,7 @@ $(function()
 	
 	if( typeof(urlvars['planid']) != 'undefined' && urlvars['planid'] > 0)
 	{
-		init.loadPlan(urlvars['planid']);
+		plan.loadPlan(urlvars['planid']);
 
 		$('#action').html('Entsperren');
 
@@ -45,19 +45,21 @@ $(function()
 
 		$('#action').on('click', function () 
 		{
-			unlock( urlvars['planid'], $('#password').val() );		
+			plan.checkUnlock( urlvars['planid'] , $('#password').val() );
 		});
 
 		$('#dragSource .anchor').addClass('ansicht');
+
+		plan.checkLogin( urlvars['planid'] );
 	}
 	else
 	{
 		doUnlock();
 	}
 
-	$('.en').on('click', function(event) { event.preventDefault();	setLanguage('en'); });
+	$('.en').on('click', function(event) { event.preventDefault();	util.setLanguage('en'); });
 	
-	$('.de').on('click', function(event) { event.preventDefault();	setLanguage('de'); });
+	$('.de').on('click', function(event) { event.preventDefault();	util.setLanguage('de'); });
 
 });
 
@@ -71,7 +73,7 @@ function doUnlock()
 
 	$('#dragSource div').removeClass('ansicht');
 
-	$( "#dragTarget" ).sortable({ items: "div:not(.headline)" });
+	$('#dragTarget').sortable({ items: "div:not(.headline)" });
 
 	$('#mode').html('<span style="color:green">Bearbeiten</span>');
 
@@ -83,7 +85,7 @@ function doUnlock()
 	{ 
 		var _usedId = ( $(this).parent().attr('id').split('_')[1] - 1); 
 		
-		used.splice(_usedId,1);
+		plan.used.splice(_usedId,1);
 		
 		plan.updateTotalSkillPoints();
 
@@ -96,14 +98,14 @@ function doUnlock()
 		
 		var _type = $(this).parent().prev().attr('class');
 
-		if(used[_usedId][_type+'_level'] < 5)
+		if(plan.used[_usedId][_type+'_level'] < 5)
 		{
-			used[_usedId][_type+'_level'] = Number(used[_usedId][_type+'_level'])+1;
+			plan.used[_usedId][_type+'_level'] = Number(plan.used[_usedId][_type+'_level'])+1;
 		}
 
 		plan.updateTotalSkillPoints();
 
-		$(this).parent().parent().find('.'+_type).html(used[_usedId][_type+'_level']);
+		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
 
 	$('#dragTarget').on('click', '.down', function() 
@@ -112,19 +114,19 @@ function doUnlock()
 		
 		var _type = $(this).parent().prev().attr('class');
 
-		if( used[_usedId][_type+'_level'] > 0)
+		if( plan.used[_usedId][_type+'_level'] > 0)
 		{
-			used[_usedId][_type+'_level'] = Number(used[_usedId][_type+'_level'])-1;
+			plan.used[_usedId][_type+'_level'] = Number(plan.used[_usedId][_type+'_level'])-1;
 		}
 
 		plan.updateTotalSkillPoints();
 
-		$(this).parent().parent().find('.'+_type).html(used[_usedId][_type+'_level']);
+		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
 
 	$('#action').off().on('click', function()
 	{
-		savePlan();
+		ajax.savePlan();
 	})
 
 	$('#dragTarget').droppable({drop: handleDropEvent, hoverClass: 'drophover'});
@@ -133,10 +135,6 @@ function doUnlock()
 }
 
 function myHelper( event ) { return '<div class="helpor">&raquo;</div>'; }
-
-function unlock(planid, pw) { plan.checkUnlock(planid,pw) }
-
-function savePlan() { ajax.savePlan(); }
 
 function handleDropEvent( event, ui ) {	plan.addToPlan( $(ui.draggable).attr('id') ); }
 
@@ -256,7 +254,7 @@ window['ajax'] =
 		
 		$('#dragTarget .btor').each(function() {
 			var _id = Number( $(this).attr('id').split('u_')[1] ) -1;
-			_usedSkillsA.push( used[_id] );
+			_usedSkillsA.push( plan.used[_id] );
 		});
 
 		var _usedSkills= JSON.stringify( _usedSkillsA, null, 2);

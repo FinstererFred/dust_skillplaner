@@ -369,6 +369,7 @@
 	groups['g12'] = {'en':'Destruction', 'de': 'Destruktion'};
 
 
+	ui['ml_title'] = 		{'en' : 'Dust Skill Planer', 'de': 'Dust Stundenplaner'};
 	ui['ml_name'] = 		{'en' : 'Dust Skill Planer', 'de': 'Dust Stundenplaner'};
 	ui['ml_mode'] = 		{'en' : 'Mode', 'de': 'Modus'};
 	ui['ml_needed'] = 		{'en' : 'needed SP', 'de': 'nötige SP'};

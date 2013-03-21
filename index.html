@@ -4,13 +4,15 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>DUST514 Stundenplan</title>
+<title class="is_ml" id="ml_title">DUST514 Stundenplan</title>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
+<script type="text/javascript" src="js/plan.obj.js"></script>
+<script type="text/javascript" src="js/util.obj.js"></script>
 <script type="text/javascript" src="js/function.js"></script>
-<script type="text/javascript" src="js/plan.class.js"></script>
+
 
 <link rel="stylesheet" type="text/css" href="css/style.css">
 
@@ -28,7 +30,7 @@
 	</div>
 
 	<div id="dragTarget" >
-		<div style="border-bottom:1px solid black;padding:9px" class="headline">
+		<div class="headline">
 		<span style="margin-right:15px;">StartLvl</span><span style="margin-right:15px;">EndLvl</span>Name<span style="float:right; margin-right:20px" class="is_ml" id="ml_needed">nötige SP</span>
 		</div>
 	</div>
@@ -53,7 +55,7 @@
 
 	<div class="login">
 		<span class="is_ml" id="ml_description">Bezeichnung:</span><br/>
-		<input style="width:300px;"type="text" value="Name" name="name" id="name"><br/><br/>
+		<input style="width:300px;" type="text" value="Name" name="name" id="name"><br/><br/>
 		<span class="is_ml" id="ml_password">Passwort:</span><br/>
 		<input type="text" value="Passwort" name="password" id="password" onclick="this.value = '';"/><br/>
 		<button id="action"><span class="is_ml" id="ml_save">Speichern</span></button>	

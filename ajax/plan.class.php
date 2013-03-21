@@ -5,6 +5,8 @@ include_once('db.class.php');
 
 include_once('bcrypt.class.php');
 
+session_start();
+
 error_reporting(0);
 
 class plan 
@@ -156,6 +158,10 @@ class plan
 
 		if($redirect) 
 		{ 
+			$_SESSION['loggedIn'] = true;
+
+			$_SESSION['planID'] = (int)$planNr;
+			
 			echo 'redir::'.$planNr;
 		}
 		else

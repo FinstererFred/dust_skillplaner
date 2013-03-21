@@ -3,29 +3,23 @@ function Plan()
 	this.used = [];
 }
 
-Plan.prototype.ale = function ()
-{
-	alert('fufu');
-	
-	return true;
-}
-
 Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 {
+	
 	startLevel = typeof startLevel !== 'undefined' ? startLevel : 0;
 			
 	endLevel = typeof endLevel !== 'undefined' ? endLevel : 0;
 
 	var _addnew = ( id.indexOf('u_') != -1) ? false : true;
 	
-	var _isTrenner = ( data[ id ]['skill_id']  == 1000) ? true : false;	
-
-	var newEntry = '';
-
-	var _ob = $.extend({'sort':(used.length+1)}, data[ id ]);
-
 	if(_addnew)
 	{
+		var _isTrenner = ( data[ id ]['skill_id']  == 1000) ? true : false;	
+
+		var newEntry = '';
+
+		var _ob = $.extend({'sort':(used.length+1)}, data[ id ]);
+
 		_ob.start_level = startLevel; 
 
 		_ob.end_level = endLevel;
@@ -52,23 +46,31 @@ Plan.prototype.loadPlan = function (planid)
 {
 	var _this = this;
 
-	$.getJSON('ajax/loadplan.php?planNr='+planid+'&action=skills', function(retval)
-	{
-		for (_index in retval)
-		{
-			var _id = 'd'+retval[_index]['skillID'];
+	$.ajax({
+	    type: 'GET',
+	    url: 'ajax/loadplan.php?planNr='+planid+'&action=skills',
+	    dataType: 'json',
+	    success: function(retval) 
+	    {
+	    	for (_index in retval)
+	    	{
+	    		var _id = 'd'+retval[_index]['skillID'];
 
-			var _multi = data[ _id ]['multiplier'];
-			
-			_this.addToPlan(_id, retval[_index]['startLvl'], retval[_index]['endLvl']);
-			
-			$('.pfeile').addClass('hide');
-			
-			$('.x').addClass('hide');
-		}
+	    		var _multi = data[ _id ]['multiplier'];
+	    		
+	    		_this.addToPlan(_id, retval[_index]['startLvl'], retval[_index]['endLvl']);
+	    		
+	    		$('.pfeile').addClass('hide');
+	    		
+	    		$('.x').addClass('hide');
 
-		updateTotalSkillPoints();
-	});
+	    	}
+
+	    	_this.updateTotalSkillPoints();
+	    },
+	    async: false
+	});	
+
 }
 
 Plan.prototype.loadPlanDetails = function (planid)
@@ -91,6 +93,27 @@ Plan.prototype.checkUnlock = function (planid, pw)
 			doUnlock();
 		}
 	});
+
+
+}
+
+Plan.prototype.checkLogin = function ( planid )
+{
+
+	$.ajax({
+	    type: 'GET',
+	    url: 'ajax/checkLogin.php?planNr='+planid,
+	    dataType: 'json',
+	    success: function(retval) 
+	    { 
+		    if(retval['unlock'] == true)
+			{
+				doUnlock();
+			}
+	    },
+	    async: false
+	});
+
 }
 
 Plan.prototype.updateTotalSkillPoints = function ()
@@ -99,16 +122,15 @@ Plan.prototype.updateTotalSkillPoints = function ()
 
 	for( _index in this.used )
 	{
-
 		var start_level = skills[ this.used[_index]['multiplier'] ][ this.used[_index]['start_level'] ];
 
 		var end_level = skills[ this.used[_index]['multiplier'] ][ this.used[_index]['end_level'] ];
 		
 		var cursp = (end_level - start_level > 0) ? (end_level - start_level) : 0 ;
 		
-		var target = '#u_'+( Number(_index)+1);
+		var target = '#u_'+ ( Number( _index ) + 1 );
 
-		$(target).find('.currsp').html(cursp);
+		$(target).find('.currsp').html( cursp );
 
 		_totalSP += cursp;
 
@@ -120,17 +142,9 @@ Plan.prototype.updateTotalSkillPoints = function ()
 	
 }
 
-Plan.prototype.translatePlan = function ()
-{
-	var _this = this;
-
-	$('#dragTarget .btor').each(function () 
-	{
-		var _index = Number( $(this).attr('id').split('u_')[1] ) - 1;
-		
-		$(this).find('.name').text( trans['d'+ _this.used[_index]['skill_id']][lang] + ' ('+ _this.used[_index]['multiplier']+'x)' );
-		
-	});
+Plan.prototype.savePlan = function () 
+{ 
+	window['ajax'].savePlan(); 
 }
 
 var plan = new Plan();

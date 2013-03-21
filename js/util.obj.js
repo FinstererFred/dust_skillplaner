@@ -50,13 +50,27 @@ Util.prototype.parseUrlVars = function()
 }
 
 
+Util.prototype.translatePlan = function ()
+{
+    var _this = this;
+
+    $('#dragTarget .btor').each(function () 
+    {
+        var _index = Number( $(this).attr('id').split('u_')[1] ) - 1;
+        
+        $(this).find('.name').text( trans['d'+ _this.used[_index]['skill_id']][lang] + ' ('+ _this.used[_index]['multiplier']+'x)' );
+        
+    });
+}
+
+
 Util.prototype.setLanguage = function (_lang)
 {
 	util.setCookie('lang', _lang, 180);
 
 	lang = _lang;
 
-	init.loadList();
+	init.loadSkillList();
 
 	this.translatePlan();
 
@@ -67,7 +81,7 @@ Util.prototype.setLanguage = function (_lang)
   	});
 }
 
-var util = new Ulan();
+var util = new Util();
 
 
 Object.keys = Object.keys || (function () {
