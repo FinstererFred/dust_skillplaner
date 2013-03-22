@@ -15,6 +15,15 @@ if($planNr > 0)
 	
 	$pw = $bcrypt->test($pw, $userpw['pw'], $userpw['salt'] ); 
 
+	if($pw)
+	{
+		session_start();
+
+		$_SESSION['loggedIn'] = true;
+
+		$_SESSION['planID'] = (int)$planNr;
+	}
+
 	echo json_encode( array('unlock'=> $pw) );
 }
 

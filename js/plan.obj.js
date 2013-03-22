@@ -18,7 +18,7 @@ Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 
 		var newEntry = '';
 
-		var _ob = $.extend({'sort':(used.length+1)}, data[ id ]);
+		var _ob = $.extend({'sort':(this.used.length+1)}, data[ id ]);
 
 		_ob.start_level = startLevel; 
 
@@ -75,11 +75,19 @@ Plan.prototype.loadPlan = function (planid)
 
 Plan.prototype.loadPlanDetails = function (planid)
 {
-	$.getJSON('ajax/loadplan.php?planNr='+planid+'&action=details', function(retval)
-	{
-		$('#name').val(retval.desc)		
 
-		$('#name').attr('disabled','disabled');
+	$.ajax({
+	    type: 'GET',
+	    url: 'ajax/loadplan.php?planNr='+planid+'&action=details',
+	    dataType: 'json',
+	    success: function(retval) 
+	    { 
+		    $('#name').val(retval.desc)		
+			$('#name').attr('disabled','disabled');
+
+			$('#overcap').val(retval.overcap);
+	    },
+	    async: false
 	});
 
 }
@@ -93,8 +101,6 @@ Plan.prototype.checkUnlock = function (planid, pw)
 			doUnlock();
 		}
 	});
-
-
 }
 
 Plan.prototype.checkLogin = function ( planid )

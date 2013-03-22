@@ -1,0 +1,1 @@
+ALTER TABLE `dt_plan` ADD COLUMN `overcap` INT NOT NULL DEFAULT '0' AFTER `pw`;

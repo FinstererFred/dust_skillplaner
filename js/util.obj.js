@@ -11,7 +11,6 @@ Util.prototype.setCookie = function(c_name,value,exdays)
 	document.cookie = c_name + "=" + c_value;
 }
 
-
 Util.prototype.getCookie = function (c_name)
 {
 	var i,x,y,ARRcookies=document.cookie.split(";");
@@ -58,8 +57,10 @@ Util.prototype.translatePlan = function ()
     {
         var _index = Number( $(this).attr('id').split('u_')[1] ) - 1;
         
-        $(this).find('.name').text( trans['d'+ _this.used[_index]['skill_id']][lang] + ' ('+ _this.used[_index]['multiplier']+'x)' );
-        
+        if( plan.used[_index]['skill_id'] != 1000)
+        {
+            $(this).find('.name').text( trans['d'+ plan.used[_index]['skill_id']][lang] + ' ('+ plan.used[_index]['multiplier']+'x)' );
+        }
     });
 }
 

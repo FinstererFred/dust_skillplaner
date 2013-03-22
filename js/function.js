@@ -38,6 +38,8 @@ $(function()
 	if( typeof(urlvars['planid']) != 'undefined' && urlvars['planid'] > 0)
 	{
 		plan.loadPlan(urlvars['planid']);
+		
+		plan.loadPlanDetails(urlvars['planid']);
 
 		$('#action').html('Entsperren');
 
@@ -61,6 +63,27 @@ $(function()
 	
 	$('.de').on('click', function(event) { event.preventDefault();	util.setLanguage('de'); });
 
+	$('#overcap').on('click', function() { if($(this).val() == 0) $(this).val('') }).keydown(function(event)
+	{
+		if ( (event.keyCode >= 48 && event.keyCode <= 57) || 
+			event.keyCode == 8 || 
+			event.keyCode == 37 || 
+			event.keyCode == 39 || 
+			event.keyCode == 36 ||
+			 (event.keyCode >= 96 && event.keyCode <= 105) )
+		{
+    		return;
+        }
+        else
+        {
+        	event.preventDefault();
+        }
+
+	}).keyup(function() 
+	{  
+		plan.updateTotalSkillPoints();
+	});
+
 });
 
 function doUnlock() 
@@ -77,7 +100,10 @@ function doUnlock()
 
 	$('#mode').html('<span style="color:green">Bearbeiten</span>');
 
-	$('#action').html('Speichern');
+	$('#action').html('Speichern').off().on('click', function()
+	{
+		ajax.savePlan();
+	});
 
 	$('#name').removeAttr('disabled');
 
@@ -124,10 +150,6 @@ function doUnlock()
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
 
-	$('#action').off().on('click', function()
-	{
-		ajax.savePlan();
-	})
 
 	$('#dragTarget').droppable({drop: handleDropEvent, hoverClass: 'drophover'});
 
@@ -140,13 +162,15 @@ function handleDropEvent( event, ui ) {	plan.addToPlan( $(ui.draggable).attr('id
 
 function updateSkillTime(totalSP)
 {
-	var _time = (totalSP / (190400+24000*7)).toFixed(2);
+	var _overcap = Number( $('#overcap').val() ) > 0 ? Number( $('#overcap').val() ) : 0;
+
+	var _time = (totalSP / (190400+24000*7 + _overcap )).toFixed(2);
 	
-	var _boost1 = (totalSP / ( (190400*1.5) +	24000*7)).toFixed(2);
+	var _boost1 = (totalSP / ( (190400*1.5) + 24000*7 + _overcap ) ).toFixed(2);
 	
-	var _boost2 = (totalSP / ( (190400) + 	(24000*7*1.5))).toFixed(2);
+	var _boost2 = (totalSP / ( (190400) + (24000*7*1.5))).toFixed(2);
 	
-	var _boost3 = (totalSP / ( (190400*1.5) + (24000*7*1.5))).toFixed(2);
+	var _boost3 = (totalSP / ( (190400*1.5) + (24000*7*1.5) + _overcap) ).toFixed(2);
 
 	var _out = _time+ ' (ohne Booster)<br/> ' + _boost1 + ' (nur aktiv)<br/>' + _boost2 +' (nur passiv)<br/>'+ _boost3 +' (beide)<br/>';
 
@@ -212,6 +236,8 @@ window['init'] =
 		
 			_i++;
 		}
+
+
 		
 		$('#dragSource').html(_out + '</div>' );
 
@@ -220,13 +246,6 @@ window['init'] =
 		$('#dragSource .folder').on('click', function () { $(this).next().toggle();	$(this).toggleClass('minus'); });
 
 		return true;
-	}, 
-
-	'loadPlan' : function (planid)
-	{
-		plan.loadPlan(planid);
-
-		plan.loadPlanDetails(planid);
 	},
 
 	sortGroups : function ()
@@ -263,6 +282,8 @@ window['ajax'] =
 
 		var _name = $('#name').val();
 
+		var _overcap = Number( $('#overcap').val() );
+
 		if(_name.length < 5)
 		{
 			alert('Bitte mind. 5 Zeichen als Name');
@@ -286,7 +307,7 @@ window['ajax'] =
 		$.ajax({
 		  type: "POST",
 		  url: "ajax/writeplan.php",
-		  data: { usedSkills: _usedSkills, pw: _pw, planNr :  _planid, name : _name }
+		  data: { usedSkills: _usedSkills, pw: _pw, planNr :  _planid, name : _name, overcap : _overcap }
 		}).done(function( msg ) 
 		{
 		  if(msg == 'omg') 

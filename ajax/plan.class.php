@@ -21,7 +21,7 @@ class plan
 
 	function loadPlanDetails($planNr)
 	{
-		$sql = "SELECT p.desc FROM dt_plan p WHERE p.id = :planNr";
+		$sql = "SELECT p.desc, p.overcap FROM dt_plan p WHERE p.id = :planNr";
 
 		$stmt = $this->db->prepare($sql);
 
@@ -91,6 +91,10 @@ class plan
 
 			$pw = $bcrypt->test($daten['pw'], $userpw['pw'], $userpw['salt'] ); 
 
+			$name = $daten['name'];
+
+			$overcap = (int)$daten['overcap'];
+
 			if(!$pw) { echo "omg";	return;	}
 
 			$sql = "DELETE from dt_planskills where planID = :planNr";
@@ -101,11 +105,13 @@ class plan
 
 			$stmt->execute();
 
-			$sql = "UPDATE dt_plan SET dt_plan.desc = :name WHERE id = :planNr LIMIT 1";
+			$sql = "UPDATE dt_plan SET dt_plan.desc = :name, dt_plan.overcap = :overcap WHERE id = :planNr LIMIT 1";
 
 			$stmt = $this->db->prepare($sql);
 
-			$stmt->bindParam(':name', $daten['name'], PDO::PARAM_STR);
+			$stmt->bindParam(':name', $name, PDO::PARAM_STR);
+			
+			$stmt->bindParam(':overcap', $overcap , PDO::PARAM_INT);
 			
 			$stmt->bindParam(':planNr', $planNr, PDO::PARAM_INT);
 
