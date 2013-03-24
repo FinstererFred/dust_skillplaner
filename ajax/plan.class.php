@@ -95,7 +95,7 @@ class plan
 
 			$overcap = (int)$daten['overcap'];
 
-			if(!$pw) { echo "omg";	return;	}
+			if(!$pw && ($_SESSION['planID'] != $planNr && $_SESSION['loggedIn'] != true) ) { echo "omg";	return;	}
 
 			$sql = "DELETE from dt_planskills where planID = :planNr";
 
@@ -123,9 +123,13 @@ class plan
 
 			$pw = $bcrypt->hash( $daten['pw'], $salt);
 
-			$sql = "INSERT into dt_plan (dt_plan.desc,pw,salt,dt_plan.date) VALUES (:name,:pw,:salt,:date)";
+			$sql = "INSERT into dt_plan (dt_plan.desc,dt_plan.overcap,pw,salt,dt_plan.date) VALUES (:name,:overcap,:pw,:salt,:date)";
 
 			$stmt = $this->db->prepare($sql);
+
+			$overcap = (int)$daten['overcap'];
+
+			$stmt->bindParam(':overcap', $overcap , PDO::PARAM_INT);
 
 			$stmt->bindParam(':name', $daten['name'], PDO::PARAM_STR);
 			

@@ -11,7 +11,7 @@ Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 	endLevel = typeof endLevel !== 'undefined' ? endLevel : 0;
 
 	var _addnew = ( id.indexOf('u_') != -1) ? false : true;
-	
+
 	if(_addnew)
 	{
 		var _isTrenner = ( data[ id ]['skill_id']  == 1000) ? true : false;	
@@ -28,18 +28,35 @@ Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 
 		if(_isTrenner == false)
 		{
-			newEntry = '<div id="u_'+this.used.length+'" class="btor" title="'+desc[ id ][lang]+'"> <span class="start">'+startLevel+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="end">'+endLevel+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="name">'+trans[ id ][lang]+' ('+data[ id ].multiplier+'x)</span> <span class="x">x</span><span class="currsp">0</span></div>';
+			newEntry = '<div data-type="skill" id="u_'+this.used.length+'" class="btor" title="'+desc[ id ][lang]+'"> <span class="start">'+startLevel+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="end">'+endLevel+'</span><span class="pfeile"><img src="gfx/p_hoch.png" class="up"/><img src="gfx/p_runter.png" class="down"/></span>  <span class="name">'+trans[ id ][lang]+' ('+data[ id ].multiplier+'x)</span> <span class="x">x</span><span class="currsp">0</span></div>';
 		}
 		else
 		{
-			newEntry = '<div id="u_'+this.used.length+'" class="btor trenner" title="'+desc[ id ][lang]+'">  <span class="name"> </span> <span class="x">x</span></div>';
+			newEntry = '<div data-type="trenner" id="u_'+this.used.length+'" class="btor trenner" title="'+desc[ id ][lang]+'">  <span class="name"> </span> <span class="x">x</span><span class="currsp">0</span></div>';
 		}
 
 		$('#dragTarget').append( newEntry );
 		
-		$('#dragTarget').sortable({ items: "div:not(.headline)" });
+		util.calculateTrenner();
+
+		$('#dragTarget').sortable(
+			{ items: "div:not(.headline)" 
+			 , update: function(event, ui) 
+			{ 
+	            var _isTrenner = $(ui.item.data('type') == 'trenner') ? true : false;
+
+				if(_isTrenner)
+				{
+					util.calculateTrenner();
+				}
+	       	} 
+		       	
+		});
 	}
-	else { /*resort*/; }
+	else 
+	{ 
+		/*resort*/
+	}
 }
 
 Plan.prototype.loadPlan = function (planid)
@@ -67,6 +84,8 @@ Plan.prototype.loadPlan = function (planid)
 	    	}
 
 	    	_this.updateTotalSkillPoints();
+
+	    	util.calculateTrenner();
 	    },
 	    async: false
 	});	
@@ -94,11 +113,16 @@ Plan.prototype.loadPlanDetails = function (planid)
 
 Plan.prototype.checkUnlock = function (planid, pw)
 {
+	$('#spinner_target img').attr('src', 'gfx/spinner.gif');
 	$.getJSON('ajax/unlockplan.php?planNr='+planid+'&pw='+pw, function(retval)
 	{
 		if(retval['unlock'] == true)
 		{
 			doUnlock();
+		}
+		else 
+		{
+			$('#spinner_target img').attr('src', 'gfx/unlock.png');
 		}
 	});
 }
@@ -114,7 +138,7 @@ Plan.prototype.checkLogin = function ( planid )
 	    { 
 		    if(retval['unlock'] == true)
 			{
-				doUnlock();
+				doUnlock(true);
 			}
 	    },
 	    async: false
@@ -136,9 +160,12 @@ Plan.prototype.updateTotalSkillPoints = function ()
 		
 		var target = '#u_'+ ( Number( _index ) + 1 );
 
-		$(target).find('.currsp').html( cursp );
+		if( $(target).data('type') != 'trenner' )
+		{
+			$(target).find('.currsp').html( cursp );
 
-		_totalSP += cursp;
+			_totalSP += cursp;
+		}
 
 	}
 

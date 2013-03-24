@@ -41,7 +41,7 @@ $(function()
 		
 		plan.loadPlanDetails(urlvars['planid']);
 
-		$('#action').html('Entsperren');
+		$('#action').html('<span class="is_ml" id="ml_unlock">Entsperren<span id="spinner_target"><img src="gfx/unlock.png" /></span></span>');
 
 		$('#mode').html('<span style="color:red">Ansicht</span>');
 
@@ -86,8 +86,10 @@ $(function()
 
 });
 
-function doUnlock() 
+function doUnlock(fromLogin) 
 {
+	fromLogin = typeof startLevel !== 'undefined' ? fromLogin : false;
+
 	locked = false;
 
 	$('.pfeile').removeClass('hide');
@@ -98,9 +100,9 @@ function doUnlock()
 
 	$('#dragTarget').sortable({ items: "div:not(.headline)" });
 
-	$('#mode').html('<span style="color:green">Bearbeiten</span>');
+	$('#mode').html('<span style="color:green">Bearbeiten</span> | <span id="logout" onclick="util.logout();">logout</span>');
 
-	$('#action').html('Speichern').off().on('click', function()
+	$('#action').html('<span class="is_ml" id="ml_save">Speichern<span id="spinner_target"><img src="gfx/save.png" /></span></span>').off().on('click', function()
 	{
 		ajax.savePlan();
 	});
@@ -130,6 +132,7 @@ function doUnlock()
 		}
 
 		plan.updateTotalSkillPoints();
+		util.calculateTrenner();
 
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
@@ -146,10 +149,12 @@ function doUnlock()
 		}
 
 		plan.updateTotalSkillPoints();
+		util.calculateTrenner();
 
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
 
+	$('#password').attr('disabled', 'disabled').addClass('disabled');
 
 	$('#dragTarget').droppable({drop: handleDropEvent, hoverClass: 'drophover'});
 
@@ -304,12 +309,15 @@ window['ajax'] =
 
 		var _planid = (urlvars['planid'] > 0) ? urlvars['planid'] : 0;
 
+		$('#spinner_target').html('<img src="gfx/spinner.gif" />');
+
 		$.ajax({
 		  type: "POST",
 		  url: "ajax/writeplan.php",
 		  data: { usedSkills: _usedSkills, pw: _pw, planNr :  _planid, name : _name, overcap : _overcap }
 		}).done(function( msg ) 
 		{
+		  $('#spinner_target').html('<img src="gfx/save.png" />');
 		  if(msg == 'omg') 
 		  	$('#output').html('<span style="color:red">Speichern fehlgeschlagen</span>')
 		  else if(msg == 'ok')

@@ -16,7 +16,7 @@ body a 			{ text-decoration: none}
 .headline 		{ border-bottom:1px solid white;padding:9px}
 .anchor 		{ padding-left: 5px; height:30px; line-height:30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer; background:url(../gfx/anchor.png) right 4px  no-repeat;}
 .btor 			{ padding:0px 5px; height: 30px; line-height: 30px; border-bottom: 1px solid #4d4d4d; color:#ccc;text-align: left; cursor: pointer; background:#333;}
-.btor.trenner	{ height: 20px; line-height: 20px; background:black; color:white;}
+.btor.trenner	{ height: 20px; line-height: 20px; background:black; color:white;padding:3px 5px;}
 .helpor 		{ padding: 5px; width: 200px; height:20px; background: #000; color:white;text-align: center}
 .group			{ display:none;}
 .folder			{ background:url(../gfx/plus.png) 5px 8px no-repeat grey;padding:5px; cursor: pointer; border-bottom: 1px solid #626262; padding-left: 18px}
@@ -38,7 +38,7 @@ body a 			{ text-decoration: none}
 .mode			{ line-height: 30px; font-weight: bold; font-size: 13px; border:2px solid #555; border-top:0px; background:#333; border-radius:0px 0px 5px 5px; margin-bottom: 10px;padding:0px 10px; overflow: hidden}
 .mode a 		{ color:white;}
 .mode .modestatus
-				{ float:right; width:120px;}
+				{ float:right; width:170px;}
 .mode .name		{ float:left;}
 .mode .language { font-size: 10px; padding-left: 10px}
 .filter 		{ padding-left:5px;height: 34px; line-height: 34px; border-bottom: 1px solid black}
@@ -49,5 +49,16 @@ body a 			{ text-decoration: none}
 input[type=text], input[type=email], input[type=password] 
 				{ padding:3px 5px; border:none; background:#aaa; border-radius:2px;}
 h1				{ font-size:20px; text-align:left;}
-button 			{ background:#06C; color:#fff; border:1px solid #06F; border-radius:2px; padding:6px 10px; font-size:16px; margin-top:10px;}
+button 			{ background:#06C; color:#fff; border:1px solid #06F; border-radius:2px; padding:6px 10px; font-size:16px; width:120px; text-align:left; line-height: 21px; cursor:pointer;}
+#spinner_target { float:right;}
+#spinner_target img 
+				{ position: relative; top:2px;}
 
+#output			{ padding:10px 3px;}
+
+.login input[type=text]
+				{ padding:9px 5px; }
+
+.disabled		{ cursor: not-allowed;}
+
+#logout			{ cursor: pointer}

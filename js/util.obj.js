@@ -82,6 +82,44 @@ Util.prototype.setLanguage = function (_lang)
   	});
 }
 
+Util.prototype.calculateTrenner = function ()
+{
+    var _act;
+
+    var _trennerPoints;
+  
+    $('#dragTarget .trenner').each(function () 
+    {
+        _trennerPoints = 0;
+        
+        _act = $(this).prev();
+
+        while( $(_act).data('type') == 'skill' )
+        {
+            _trennerPoints += Number( $(_act).find('.currsp').text() );
+            
+            _act = $(_act).prev();
+        }
+
+        $(this).find('.currsp').html(_trennerPoints);
+
+    });
+}
+
+Util.prototype.logout = function ()
+{
+ 
+   $.ajax({
+        type: 'GET',
+        url: 'ajax/logout.php',
+        success: function() 
+        { 
+              console.log('k');
+              window.location.reload()
+        }, 
+        async:true});
+}
+
 var util = new Util();
 
 
