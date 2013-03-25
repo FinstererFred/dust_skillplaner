@@ -1,4 +1,4 @@
-function Util() {}
+function Util() { }
 
 Util.prototype.setCookie = function(c_name,value,exdays)
 {
@@ -121,7 +121,6 @@ Util.prototype.logout = function ()
 }
 
 var util = new Util();
-
 
 Object.keys = Object.keys || (function () {
     var hasOwnProperty = Object.prototype.hasOwnProperty,
