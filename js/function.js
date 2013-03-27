@@ -188,7 +188,7 @@ window['init'] =
 	{
 		var _out = '';
 		
-		var patt =	new RegExp(".*"+filtertext+".*", "g")
+		var patt =	new RegExp(".*"+filtertext+".*", "i")
 
 		var _outStr = '';
 
