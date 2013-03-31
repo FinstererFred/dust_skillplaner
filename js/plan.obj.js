@@ -118,7 +118,7 @@ Plan.prototype.checkUnlock = function (planid, pw)
 	{
 		if(retval['unlock'] == true)
 		{
-			doUnlock();
+			doUnlock(true);
 		}
 		else 
 		{

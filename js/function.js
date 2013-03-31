@@ -88,7 +88,7 @@ $(function()
 
 function doUnlock(fromLogin) 
 {
-	fromLogin = typeof startLevel !== 'undefined' ? fromLogin : false;
+	fromLogin = typeof fromLogin !== 'undefined' ? fromLogin : false;
 
 	locked = false;
 
@@ -100,7 +100,7 @@ function doUnlock(fromLogin)
 
 	$('#dragTarget').sortable({ items: "div:not(.headline)" });
 
-	$('#mode').html('<span style="color:green">Bearbeiten</span> | <span id="logout" onclick="util.logout();">logout</span>');
+	$('#mode').html('<span style="color:green">Bearbeiten</span>');
 
 	$('#action').html('<span class="is_ml" id="ml_save">Speichern<span id="spinner_target"><img src="gfx/save.png" /></span></span>').off().on('click', function()
 	{
@@ -154,7 +154,12 @@ function doUnlock(fromLogin)
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
 	});
 
-	$('#password').attr('disabled', 'disabled').addClass('disabled');
+	if(fromLogin)
+	{
+		$('#password').attr('disabled', 'disabled').addClass('disabled');
+
+		$('#mode').append(' | <span id="logout" onclick="util.logout();">logout</span>');
+	}
 
 	$('#dragTarget').droppable({drop: handleDropEvent, hoverClass: 'drophover'});
 
