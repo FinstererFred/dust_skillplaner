@@ -125,7 +125,7 @@
 	data['d84'] = {'start_level':0, 'end_level':0, 'multiplier':5, 'skill_id': 84, 'group': 7};
 	data['d85'] = {'start_level':0, 'end_level':0, 'multiplier':3, 'skill_id': 85, 'group': 7};
 	data['d86'] = {'start_level':0, 'end_level':0, 'multiplier':5, 'skill_id': 86, 'group': 7};
-	data['d87'] = {'start_level':0, 'end_level':0, 'multiplier':3, 'skill_id': 87, 'group': 7};
+	data['d87'] = {'start_level':0, 'end_level':0, 'multiplier':1, 'skill_id': 87, 'group': 7};
 	data['d88'] = {'start_level':0, 'end_level':0, 'multiplier':3, 'skill_id': 88, 'group': 7};
 	data['d89'] = {'start_level':0, 'end_level':0, 'multiplier':1, 'skill_id': 89, 'group': 7};
 	data['d90'] = {'start_level':0, 'end_level':0, 'multiplier':3, 'skill_id': 90, 'group': 7};

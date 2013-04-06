@@ -132,6 +132,7 @@ function doUnlock(fromLogin)
 		}
 
 		plan.updateTotalSkillPoints();
+		
 		util.calculateTrenner();
 
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);

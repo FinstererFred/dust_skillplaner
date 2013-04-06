@@ -62,10 +62,12 @@ Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 Plan.prototype.loadPlan = function (planid)
 {
 	var _this = this;
+	
+	var rnd=Math.floor(Math.random()*10001);
 
 	$.ajax({
 	    type: 'GET',
-	    url: 'ajax/loadplan.php?planNr='+planid+'&action=skills',
+	    url: 'ajax/loadplan.php?planNr='+planid+'&action=skills&rnd='+rnd,
 	    dataType: 'json',
 	    success: function(retval) 
 	    {
@@ -94,17 +96,23 @@ Plan.prototype.loadPlan = function (planid)
 
 Plan.prototype.loadPlanDetails = function (planid)
 {
+	var rnd=Math.floor(Math.random()*10001);
+
+	var _this = this;
 
 	$.ajax({
 	    type: 'GET',
-	    url: 'ajax/loadplan.php?planNr='+planid+'&action=details',
+	    url: 'ajax/loadplan.php?planNr='+planid+'&action=details&rnd='+rnd,
 	    dataType: 'json',
 	    success: function(retval) 
 	    { 
 		    $('#name').val(retval.desc)		
+			
 			$('#name').attr('disabled','disabled');
 
 			$('#overcap').val(retval.overcap);
+
+			_this.updateTotalSkillPoints();
 	    },
 	    async: false
 	});
@@ -113,8 +121,10 @@ Plan.prototype.loadPlanDetails = function (planid)
 
 Plan.prototype.checkUnlock = function (planid, pw)
 {
+	var rnd=Math.floor(Math.random()*10001);
+
 	$('#spinner_target img').attr('src', 'gfx/spinner.gif');
-	$.getJSON('ajax/unlockplan.php?planNr='+planid+'&pw='+pw, function(retval)
+	$.getJSON('ajax/unlockplan.php?planNr='+planid+'&pw='+pw+'&rnd='+rnd, function(retval)
 	{
 		if(retval['unlock'] == true)
 		{
@@ -129,10 +139,11 @@ Plan.prototype.checkUnlock = function (planid, pw)
 
 Plan.prototype.checkLogin = function ( planid )
 {
+	var rnd=Math.floor(Math.random()*10001);
 
 	$.ajax({
 	    type: 'GET',
-	    url: 'ajax/checkLogin.php?planNr='+planid,
+	    url: 'ajax/checkLogin.php?planNr='+planid+'&rnd='+rnd,
 	    dataType: 'json',
 	    success: function(retval) 
 	    { 
