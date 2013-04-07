@@ -24,6 +24,7 @@ Plan.prototype.addToPlan = function(id, startLevel, endLevel)
 
 		_ob.end_level = endLevel;
 
+		_ob.target = (this.used.length + 1);
 		this.used.push( _ob );
 
 		if(_isTrenner == false)
@@ -170,6 +171,8 @@ Plan.prototype.updateTotalSkillPoints = function ()
 		var cursp = (end_level - start_level > 0) ? (end_level - start_level) : 0 ;
 		
 		var target = '#u_'+ ( Number( _index ) + 1 );
+
+		target = '#u_'+this.used[_index]['target']; 
 
 		if( $(target).data('type') != 'trenner' )
 		{

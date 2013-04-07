@@ -113,11 +113,16 @@ function doUnlock(fromLogin)
 	{ 
 		var _usedId = ( $(this).parent().attr('id').split('_')[1] - 1); 
 		
-		plan.used.splice(_usedId,1);
+		//plan.used.splice(_usedId,1);
+
+		delete plan.used[ _usedId ];
 		
+		$(this).parent().remove();
+
 		plan.updateTotalSkillPoints();
 
-		$(this).parent().remove();
+		util.calculateTrenner();
+
 	});
 
 	$('#dragTarget').on('click', '.up', function() 
@@ -150,6 +155,7 @@ function doUnlock(fromLogin)
 		}
 
 		plan.updateTotalSkillPoints();
+		
 		util.calculateTrenner();
 
 		$(this).parent().parent().find('.'+_type).html(plan.used[_usedId][_type+'_level']);
@@ -282,8 +288,10 @@ window['ajax'] =
 	{
 		var _usedSkillsA = [];
 		
-		$('#dragTarget .btor').each(function() {
+		$('#dragTarget .btor').each(function() 
+		{
 			var _id = Number( $(this).attr('id').split('u_')[1] ) -1;
+			
 			_usedSkillsA.push( plan.used[_id] );
 		});
 
